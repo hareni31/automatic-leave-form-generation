@@ -19,8 +19,6 @@ The **Automatic Leave Form Generation** project aims to streamline the process o
 
   ## Output
 
-This section provides an overview of the expected output from the application.
-
 ### Screenshots
 
 1. ![Screenshot 8](screenshots/Screenshot%20(8).png)
@@ -38,6 +36,3 @@ This section provides an overview of the expected output from the application.
 13. ![Screenshot 20](screenshots/Screenshot%20(20).png)
 14. ![Screenshot 21](screenshots/Screenshot%20(21).png)
 15. ![Screenshot 22](screenshots/Screenshot%20(22).png)
-
-
-
