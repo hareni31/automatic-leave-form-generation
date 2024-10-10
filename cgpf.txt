@@ -1,0 +1,80 @@
+<?php
+ob_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Include the TCPDF library
+require_once('TCPDF-main/tcpdf.php');
+
+// Ensure there's no output before this point
+// Comment out the line below if no whitespace or output is present
+// ob_clean();
+
+require_once('info.php');
+
+// Function to retrieve leave form data from the database
+function getLeaveFormData($student_id, $conn) {
+    // Prepare SQL query to retrieve leave form data
+    $sql = "SELECT * FROM leave_forms WHERE student_id = $student_id";
+
+    // Execute SQL query
+    $result = mysqli_query($conn, $sql);
+
+    // Check if query was successful
+    if ($result && mysqli_num_rows($result) > 0) {
+        // Fetch data
+        $data = mysqli_fetch_assoc($result);
+    } else {
+        $data = false; // No data found
+    }
+
+    return $data;
+}
+
+// Get student ID from the URL parameter
+$student_id = isset($_GET['student_id']) ? $_GET['student_id'] : null;
+
+// Check if student ID is provided
+if ($student_id) {
+    // Retrieve leave form data from the database
+    $formData = getLeaveFormData($student_id, $conn);
+
+    // Check if form data is available
+    if ($formData) {
+        // Create new PDF document
+        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+        // Set document information
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor('Your Name');
+        $pdf->SetTitle('Leave Form');
+        $pdf->SetSubject('Leave Form Submission');
+        $pdf->SetKeywords('Leave, Form, PDF');
+
+        // Add a page
+        $pdf->AddPage();
+
+        // Set some content
+        $html = '<h1>Leave Form</h1>';
+        $html .= '<p>Student Name: ' . $formData['student_name'] . '</p>';
+        $html .= '<p>Class: ' . $formData['class_name'] . '</p>';
+        $html .= '<p>Roll Number: ' . $formData['roll_number'] . '</p>';
+        $html .= '<p>Reason for Leave: ' . $formData['reason'] . '</p>';
+        // Add more data as needed...
+
+        // Output the HTML content
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+        // Close and output PDF document
+        $pdf->Output('leave_form_' . $student_id . '.pdf', 'D');
+    } else {
+        echo 'No leave form data found for the student.';
+    }
+} else {
+    echo 'Student ID is not provided.';
+}
+
+ob_end_clean();
+?>
+// Use an absolute file path
+$pdf->Output('C:/xampp/htdocs/proj/leave_form_3.pdf', 'F');

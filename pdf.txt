@@ -1,0 +1,97 @@
+Yes, it's possible to generate a leave form for absent students and then generate a report containing all the filled leave forms. Below is the approach you can follow along with the code snippets:
+
+Generate Leave Form for Absent Students:
+
+After filtering absent students, provide a button or link for each student to generate their leave form.
+When the user clicks on the button or link, a form should be dynamically generated with fields for student details (name, class, roll number, date) along with a field to enter the reason for leave.
+Upon submission of the form, store the leave details in the database.
+Generate Report of Filled Leave Forms:
+
+Create a page where an authorized user can view all the filled leave forms.
+Retrieve the leave form data from the database and display it in a tabular format.
+Provide an option to print the report.
+Below are the code snippets to achieve these functionalities:
+
+Generate Leave Form for Absent Students:
+
+html
+Copy code
+<!-- Inside the loop where you display absent students -->
+<form action="process_leave_form.php" method="post">
+    <input type="hidden" name="student_id" value="<?php echo $student_id; ?>">
+    <input type="hidden" name="class_id" value="<?php echo $class_id; ?>">
+    <input type="hidden" name="attendance_date" value="<?php echo $attendance_date; ?>">
+    <label for="reason">Reason for Leave:</label>
+    <textarea name="reason" id="reason" required></textarea>
+    <input type="submit" value="Submit Leave Form">
+</form>
+process_leave_form.php:
+
+php
+Copy code
+<?php
+// Include the database connection file
+require_once 'info.php';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $student_id = $_POST['student_id'];
+    $class_id = $_POST['class_id'];
+    $attendance_date = $_POST['attendance_date'];
+    $reason = $_POST['reason'];
+
+    // Insert leave form data into the database
+    $query = "INSERT INTO leave_forms (student_id, class_id, attendance_date, reason) 
+              VALUES ('$student_id', '$class_id', '$attendance_date', '$reason')";
+
+    if (mysqli_query($conn, $query)) {
+        echo "Leave form submitted successfully.";
+    } else {
+        echo "Error: " . mysqli_error($conn);
+    }
+}
+?>
+Generate Report of Filled Leave Forms:
+
+php
+Copy code
+<?php
+// Include the database connection file
+require_once 'info.php';
+
+// Retrieve all filled leave forms from the database
+$query = "SELECT * FROM leave_forms";
+$result = mysqli_query($conn, $query);
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Leave Form Report</title>
+</head>
+<body>
+    <h2>Leave Form Report</h2>
+    <table border="1">
+        <tr>
+            <th>Student Name</th>
+            <th>Class</th>
+            <th>Roll Number</th>
+            <th>Date</th>
+            <th>Reason</th>
+        </tr>
+        <?php
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<tr>";
+            echo "<td>{$row['student_name']}</td>";
+            echo "<td>{$row['class']}</td>";
+            echo "<td>{$row['roll_number']}</td>";
+            echo "<td>{$row['attendance_date']}</td>";
+            echo "<td>{$row['reason']}</td>";
+            echo "</tr>";
+        }
+        ?>
+    </table>
+    <button onclick="window.print()">Print Report</button>
+</body>
+</html>
+Make sure to adjust the table column names and database structure according to your actual database schema. This code assumes that you have a table named leave_forms with columns for student details, attendance date, and reason for leave.

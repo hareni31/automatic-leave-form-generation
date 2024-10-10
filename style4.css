@@ -1,0 +1,33 @@
+/* CSS for container */
+.container {
+    max-width: 600px; /* Adjust width as needed */
+    margin: 0 auto; /* Center the container horizontally */
+    padding: 20px;
+    background-color: #f4f4f4;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* CSS for report options */
+.report-options {
+    margin-top: 20px;
+}
+
+/* CSS for individual report option */
+.report-option {
+    margin-bottom: 10px;
+}
+
+.report-option a {
+    display: block;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #333;
+}
+
+.report-option a:hover {
+    background-color: #f0f0f0;
+}
