@@ -21,7 +21,8 @@ The **Automatic Leave Form Generation** project aims to streamline the process o
 
 ### Screenshots
 
-1. ![Screenshot 8](screenshots/Screenshot%20(8).png)
+1. 1. ![Screenshot 8](screenshots/Screenshot_8.png)
+
 2. ![Screenshot 9](screenshots/Screenshot%20(9).png)
 3. ![Screenshot 10](screenshots/Screenshot%20(10).png)
 4. ![Screenshot 11](screenshots/Screenshot%20(11).png)
